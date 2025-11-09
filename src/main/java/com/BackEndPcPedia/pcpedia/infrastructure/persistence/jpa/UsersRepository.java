@@ -19,7 +19,7 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
      * @param email - email associated with User
      * @return a User entity
      */
-    Optional<Users> findAllByEmailValue(String email);
+    Optional<Users> findByEmailValue(String email);
 
     /**
      * Check if any User is associated with the email
