@@ -157,7 +157,7 @@ public class Users {
     @Embeddable
     public static class PasswordHash {
         @Column(name = "password")
-        String value;
+        private String value;
 
         protected PasswordHash() {
         }
@@ -170,6 +170,9 @@ public class Users {
 
         public static PasswordHash of(String value) {
             return new PasswordHash(value);
+        }
+        public String getValue() {
+            return value;
         }
     }
 
