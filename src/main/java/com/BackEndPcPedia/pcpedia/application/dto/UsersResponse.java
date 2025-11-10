@@ -1,4 +1,4 @@
-package com.BackEndPcPedia.pcpedia.application;
+package com.BackEndPcPedia.pcpedia.application.dto;
 
 /**
  * We cannot connect directly to the database

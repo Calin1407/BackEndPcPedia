@@ -1,7 +1,11 @@
-package com.BackEndPcPedia.pcpedia.application;
+package com.BackEndPcPedia.pcpedia.application.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 /**
- * The Users can't connect with the class Users, because security
+ * The Users can't connect with database
  * This record interactive with Users to send them information
  * @param name is the User's name
  * @param email is the email associated with User
@@ -10,11 +14,11 @@ package com.BackEndPcPedia.pcpedia.application;
  * @param address is where live User
  * @param role is the User's role
  */
-public record UsersRequest(String name,
-                           String email,
-                           String password,
-                           String phoneNumber,
-                           String address,
-                           String role) {
-
+public record UsersRequest(
+        @NotBlank @Size(max=100) String name,
+        @NotBlank @Email @Size(max=100) String email,
+        @NotBlank @Size(min=6, max=100) String password,
+        @NotBlank @Size(max=20) String phoneNumber,
+        @NotBlank @Size(max=200) String address,
+        String role) {
 }
