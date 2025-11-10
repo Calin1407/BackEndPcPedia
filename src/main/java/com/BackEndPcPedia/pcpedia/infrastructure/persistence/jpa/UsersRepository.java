@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface UsersRepository extends JpaRepository<Users, Long> {
 
     /**
-     * Find all User by Email
+     * Check email associated with User
      * @param email - email associated with User
      * @return a User entity
      */

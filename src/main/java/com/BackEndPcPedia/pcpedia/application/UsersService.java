@@ -7,6 +7,8 @@ import com.BackEndPcPedia.pcpedia.infrastructure.persistence.jpa.UsersRepository
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UsersService {
     /**
@@ -83,5 +85,15 @@ public class UsersService {
     private Users.Role toRole(String _role){
         if(_role==null||_role.isBlank()) return Users.Role.CLIENT;
         return Users.Role.valueOf(_role.trim().toUpperCase());
+    }
+
+    /**
+     * Give all users in database
+     * @return list about all User registered
+     */
+    @Transactional(readOnly = true)
+    public List<UsersResponse> getAll(){
+        return repo.findAll().stream()
+                .map(this::toResponse).toList();
     }
 }
