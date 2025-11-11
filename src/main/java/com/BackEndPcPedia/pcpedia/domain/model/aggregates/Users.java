@@ -14,8 +14,11 @@ public class Users {
 
     /**
      * Attributes of Users
-     * You can read all information in Diagram Data Base
      */
+    public enum Role{
+        CLIENT,
+        ADMIN
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idUsers")
@@ -57,8 +60,10 @@ public class Users {
     @Column(name="updated_at")
     private LocalDateTime updatedAt;
 
+    /**
+     * Constructor Users
+     */
     protected Users() {}
-
     private Users(String _name,
                   Email _email,
                   PasswordHash _password,
@@ -99,15 +104,23 @@ public class Users {
         );
     }
 
-
-    public void changePassword(PasswordHash _new){
-        if (_new==null){
+    /**
+     * Method to update password
+     * @param _new new password to change
+     */
+    public void changePassword(PasswordHash _new) {
+        if (_new == null) {
             throw new IllegalArgumentException("New password is required");
         }
         this.passwordHash = _new;
     }
 
-
+    /**
+     * standard role to user is CLIENT, but
+     * when you have to update this role
+     * you need to call this method
+     * @param _role new user's role
+     */
     public void assignRole(Role _role){
         if (_role!=null){
             this.role = _role;
@@ -115,6 +128,12 @@ public class Users {
     }
 
 
+    /**
+     * Method to update user's information
+     * Only the information we consider valid for updating
+     * @param _newNumberPhone  new user's phone
+     * @param _newAddress  new user's address
+     */
     public void updateProfile(String _newNumberPhone, String _newAddress){
         if (_newAddress==null||_newAddress.isBlank()){
             throw new IllegalArgumentException("New Address is required");
@@ -127,7 +146,9 @@ public class Users {
         this.address = _newAddress;
     }
 
-    //Get values
+    /**
+     * Getters
+     */
     public Long getId() {return id;}
     public String getName() {return name;}
     public String getEmail() {return email.value;}
@@ -138,7 +159,12 @@ public class Users {
     public LocalDateTime getCreatedAt() {return createdAt;}
     public LocalDateTime getUpdatedAt() {return updatedAt;}
 
-
+    /**
+     * This object encapsulates the validation logic
+     * to ensure that the email has a valid format before
+     * being persisted or used.
+     * It is immutable once created.
+     */
     @Embeddable
     public static class Email{
         @Column(name="email")
@@ -153,7 +179,11 @@ public class Users {
         }
     }
 
-
+    /**
+     * This class is used to ensure that only password hashes
+     * that have already been processed and validated
+     * are stored in the database
+     */
     @Embeddable
     public static class PasswordHash {
         @Column(name = "password")
@@ -174,10 +204,5 @@ public class Users {
         public String getValue() {
             return value;
         }
-    }
-
-    public enum Role{
-        CLIENT,
-        ADMIN
     }
 }
