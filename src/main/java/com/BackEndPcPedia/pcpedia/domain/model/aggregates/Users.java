@@ -1,5 +1,7 @@
 package com.BackEndPcPedia.pcpedia.domain.model.aggregates;
 
+import com.BackEndPcPedia.shared.domain.valueobject.Email;
+import com.BackEndPcPedia.shared.domain.valueobject.PasswordHash;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -115,6 +117,7 @@ public class Users {
         this.passwordHash = _new;
     }
 
+    //COMING SOON...
     /**
      * standard role to user is CLIENT, but
      * when you have to update this role
@@ -127,7 +130,7 @@ public class Users {
         }
     }
 
-
+    //COMING SOON...
     /**
      * Method to update user's information
      * Only the information we consider valid for updating
@@ -151,7 +154,7 @@ public class Users {
      */
     public Long getId() {return id;}
     public String getName() {return name;}
-    public String getEmail() {return email.value;}
+    public String getEmail() {return email.getValue();}
     public PasswordHash getPasswordHash() {return passwordHash;}
     public String getPhoneNumber() {return phoneNumber;}
     public String getAddress() {return address;}
@@ -159,50 +162,10 @@ public class Users {
     public LocalDateTime getCreatedAt() {return createdAt;}
     public LocalDateTime getUpdatedAt() {return updatedAt;}
 
-    /**
-     * This object encapsulates the validation logic
-     * to ensure that the email has a valid format before
-     * being persisted or used.
-     * It is immutable once created.
-     */
-    @Embeddable
-    public static class Email{
-        @Column(name="email")
-        String value;
-
-        protected Email(){}
-
-        public Email(String value){
-            if(value==null||!value.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"))
-                throw new IllegalArgumentException("Email error");
-            this.value=value;
+    private static String requiredNonBlank(String _value, String field) {
+        if (_value == null || _value.isBlank()) {
+            throw new IllegalArgumentException(field + " is required");
         }
-    }
-
-    /**
-     * This class is used to ensure that only password hashes
-     * that have already been processed and validated
-     * are stored in the database
-     */
-    @Embeddable
-    public static class PasswordHash {
-        @Column(name = "password")
-        private String value;
-
-        protected PasswordHash() {
-        }
-
-        public PasswordHash(String value) {
-            if (value == null || value.length() < 20)
-                throw new IllegalArgumentException("Password error");
-            this.value = value;
-        }
-
-        public static PasswordHash of(String value) {
-            return new PasswordHash(value);
-        }
-        public String getValue() {
-            return value;
-        }
+        return _value;
     }
 }

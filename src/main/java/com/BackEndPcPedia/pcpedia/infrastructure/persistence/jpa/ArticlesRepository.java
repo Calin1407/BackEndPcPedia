@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ArticlesRepository extends JpaRepository<Articles, Integer> {
+public interface ArticlesRepository extends JpaRepository<Articles, Long> {
     /**
      * Method to search all Articles with same category
      * @param _status status to search
@@ -20,5 +20,5 @@ public interface ArticlesRepository extends JpaRepository<Articles, Integer> {
      * @param _pageable allows controlled data return
      * @return Articles in database associated with categories
      */
-    Page<Articles> findByCategoriesIgnoreCase(String _category, Pageable _pageable);
+    Page<Articles> findByCategory(String _category, Pageable _pageable);
 }

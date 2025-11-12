@@ -4,6 +4,7 @@ import com.BackEndPcPedia.pcpedia.application.dto.UsersResponse;
 import com.BackEndPcPedia.pcpedia.domain.model.aggregates.Users;
 import com.BackEndPcPedia.pcpedia.domain.model.commands.RegisterUserCommand;
 import com.BackEndPcPedia.pcpedia.infrastructure.persistence.jpa.UsersRepository;
+import com.BackEndPcPedia.shared.domain.valueobject.PasswordHash;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +25,8 @@ public class RegisterUserHandler {
         var role = toRole(_registerUser.role());
         var user = Users.register(
                 _registerUser.name(),
-                _registerUser.address(),
-                Users.PasswordHash.of(_registerUser.password()),
+                _registerUser.email(),
+                PasswordHash.of(_registerUser.password()),
                 _registerUser.phoneNumber(),
                 _registerUser.address() ,
                 role

@@ -1,12 +1,24 @@
 package com.BackEndPcPedia.pcpedia.application.dto;
 
+import com.BackEndPcPedia.pcpedia.domain.model.aggregates.Articles;
+
 import java.math.BigDecimal;
 
 public record ArticlesResponse(
-        Long _id,
-        String _name,
-        String _description,
-        String _category,
-        BigDecimal _price,
-        String _state) {
+        Long id,
+        String name,
+        String description,
+        String category,
+        BigDecimal price,
+        String status) {
+    public static ArticlesResponse of(Articles articles) {
+        return new ArticlesResponse(
+                articles.getId(),
+                articles.getName(),
+                articles.getDescription(),
+                articles.getCategory(),
+                articles.getPrice(),
+                articles.getStatus().name()
+        );
+    }
 }

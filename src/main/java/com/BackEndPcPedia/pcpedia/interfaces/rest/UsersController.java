@@ -2,9 +2,9 @@ package com.BackEndPcPedia.pcpedia.interfaces.rest;
 
 import com.BackEndPcPedia.pcpedia.application.dto.UsersResponse;
 import com.BackEndPcPedia.pcpedia.domain.model.commands.RegisterUserCommand;
-import com.BackEndPcPedia.pcpedia.domain.model.commands.UpdatePasswordCommand;
+import com.BackEndPcPedia.pcpedia.domain.model.commands.UpdateUserPasswordCommand;
 import com.BackEndPcPedia.pcpedia.domain.model.commands.handler.RegisterUserHandler;
-import com.BackEndPcPedia.pcpedia.domain.model.commands.handler.UpdatePasswordHandler;
+import com.BackEndPcPedia.pcpedia.domain.model.commands.handler.UpdateUserPasswordHandler;
 import com.BackEndPcPedia.pcpedia.domain.model.queries.GetListUserQuery;
 import com.BackEndPcPedia.pcpedia.domain.model.queries.GetUserByIdQuery;
 import com.BackEndPcPedia.pcpedia.domain.model.queries.Handler.GetListUserHandler;
@@ -25,17 +25,17 @@ public class UsersController {
     private final RegisterUserHandler registerUserHandler;
     private final GetUserByIdHandler getUserByIdHandler;
     private final GetListUserHandler getListUserHandler;
-    private final UpdatePasswordHandler updatePasswordHandler;
+    private final UpdateUserPasswordHandler updateUserPasswordHandler;
 
     public UsersController(
             RegisterUserHandler _registerUserHandler,
             GetUserByIdHandler _getUserByIdHandler,
             GetListUserHandler _getListUserHandler,
-            UpdatePasswordHandler _updatePasswordHandler) {
+            UpdateUserPasswordHandler _updateUserPasswordHandler) {
         this.registerUserHandler = _registerUserHandler;
         this.getUserByIdHandler = _getUserByIdHandler;
         this.getListUserHandler = _getListUserHandler;
-        this.updatePasswordHandler = _updatePasswordHandler;
+        this.updateUserPasswordHandler = _updateUserPasswordHandler;
     }
 
     /**
@@ -67,9 +67,9 @@ public class UsersController {
     @PutMapping("/{id}/password")
     public ResponseEntity<UsersResponse> updatePassword(
             @PathVariable Long id,
-            @Valid @RequestBody UpdatePasswordCommand cmd){
-        var update=updatePasswordHandler.handle(
-                new UpdatePasswordCommand(id, cmd.oldPassword(), cmd.newPassword()
+            @Valid @RequestBody UpdateUserPasswordCommand cmd){
+        var update= updateUserPasswordHandler.handle(
+                new UpdateUserPasswordCommand(id, cmd.oldPassword(), cmd.newPassword()
                 ));
         return ResponseEntity.ok(update);
     }

@@ -1,12 +1,14 @@
 package com.BackEndPcPedia.pcpedia.domain.model.aggregates;
 
 import jakarta.persistence.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
 @Table(name= "articles")
+@EntityListeners(AuditingEntityListener.class)
 public class Articles {
 
     /**
@@ -44,13 +46,11 @@ public class Articles {
      */
     protected Articles() {}
     private Articles(String _name, String _description,
-                     String _category, BigDecimal _price,
-                     Status _status) {
+                     String _category, BigDecimal _price) {
         this.name = _name;
         this.description = _description;
         this.category = _category;
         this.price = _price;
-        this.status = _status;
 
         if (price.signum() < 0){
             throw new IllegalArgumentException("price cannot be negative");
@@ -63,12 +63,11 @@ public class Articles {
      * @param _description article's description
      * @param _category article's category
      * @param _price article's price
-     * @param _status article's status
      * @return a new article in database
      */
-    public static Articles create(String _name, String _description, String _category,
-                                  BigDecimal _price, Status _status) {
-        return new Articles(_name, _description, _category, _price, _status);
+    public static Articles create(String _name, String _description,
+                                  String _category, BigDecimal _price) {
+        return new Articles(_name, _description, _category, _price);
     }
 
     /**

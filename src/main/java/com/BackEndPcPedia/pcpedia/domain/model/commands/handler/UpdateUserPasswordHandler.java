@@ -1,22 +1,22 @@
 package com.BackEndPcPedia.pcpedia.domain.model.commands.handler;
 
 import com.BackEndPcPedia.pcpedia.application.dto.UsersResponse;
-import com.BackEndPcPedia.pcpedia.domain.model.aggregates.Users;
-import com.BackEndPcPedia.pcpedia.domain.model.commands.UpdatePasswordCommand;
+import com.BackEndPcPedia.pcpedia.domain.model.commands.UpdateUserPasswordCommand;
 import com.BackEndPcPedia.pcpedia.infrastructure.persistence.jpa.UsersRepository;
+import com.BackEndPcPedia.shared.domain.valueobject.PasswordHash;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UpdatePasswordHandler {
+public class UpdateUserPasswordHandler {
     private final UsersRepository usersRepository;
 
-    public UpdatePasswordHandler(UsersRepository _usersRepository) {
+    public UpdateUserPasswordHandler(UsersRepository _usersRepository) {
         this.usersRepository = _usersRepository;
     }
 
     @Transactional
-    public UsersResponse handle(UpdatePasswordCommand cmd) {
+    public UsersResponse handle(UpdateUserPasswordCommand cmd) {
         var user = usersRepository.findById(cmd.userId()).orElseThrow(()
                 -> new IllegalArgumentException("User not found"));
 
@@ -24,7 +24,7 @@ public class UpdatePasswordHandler {
             throw new IllegalArgumentException("Incorrect current password");
         }
 
-        user.changePassword(Users.PasswordHash.of(cmd.newPassword()));
+        user.changePassword(PasswordHash.of(cmd.newPassword()));
         var saved=usersRepository.save(user);
 
         return new UsersResponse(
