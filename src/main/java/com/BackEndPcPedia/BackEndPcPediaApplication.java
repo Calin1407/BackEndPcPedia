@@ -27,7 +27,7 @@ import org.springframework.context.annotation.Bean;
     @ComponentScan(basePackages = {
             "com.BackEndPcPedia",
             "pcpedia",
-            "com.catchupplatform.shared"
+            "com.pcpedia.shared"
     })
     public class BackEndPcPediaApplication {
         public static void main(String[] args) {
@@ -36,7 +36,7 @@ import org.springframework.context.annotation.Bean;
 
         /**
          * This is only for test User table
-         * @param repo fake User
+         * @param repo fake User to test
          */
         @Profile("dev")
         @Bean
